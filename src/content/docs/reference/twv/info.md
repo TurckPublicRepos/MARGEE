@@ -1,0 +1,119 @@
+---
+title: Turck Web View
+---
+
+A `.TWV` file is used to create a virtual Human Machine Interface (vHMI) for Turck devices. vHMIs allow users to interact with and monitor devices through custom screens, layouts, and controls, all rendered in a browser or device web view.
+
+![TWV Editor](../../../../assets/TWV%20code.png)
+
+The above image can be viewed on the device (`<device IP>/hmi.html`) as: 
+
+![vHMI Settings Page](../../../../assets/TWV%20Sample.png)
+
+A `.TWV` file defines the structure and layout of your HMI screen. You can use Cascading Style Sheets (`CSS`) for styling and JavaScript for dynamic behavior, giving you flexibility to build rich, interactive HMIs.
+
+:::tip
+Multiple pages are allowed by Margee. Each screen should be defined in a different `.TWV` file. Screens are displayed in the order they appear in the editor.
+:::
+
+- **TWV**: Declarative markup for layout and logic.
+- **CSS**: Styles the rendered HMI.
+- **JavaScript**: Powers the behavior of elements like `HMI_SCREEN`, `HMI_GRID`, `HMI_DISPLAY_VAL`, etc.
+
+## TWV File Structure
+
+Every TWV file follows a similar tree structure:
+
+````plaintext
+HMI_SCREEN(<arguments>);
+  HMI_GRID(<arguments>);
+    <your containers>
+  END_HMI_GRID
+END_HMI_SCREEN
+````
+
+- **HMI_SCREEN**: Main entry point for every screen. Handles layout, header, footer, navigation, and main content.
+- **HMI_GRID**: Grid-based layout system with customizable rows and columns.
+- **HMI_CONTAINER**: Placed inside grids, defines where UI elements are rendered.
+
+You can view all available arguments and their descriptions for elements like `HMI_SCREEN`, `HMI_GRID`, and `HMI_CONTAINER` directly in VS Code using IntelliSense. Simply start typing the element, and a tooltip will appear with details about each argument.
+
+![Arguments intellisense](../../../../assets/TWV%20Intellisense.png)
+
+:::tip
+A preview is available, allowing you to directly visualize any changes you make. Start it by clicking the command button on the top-right corner of any `.TWV` file.
+:::
+
+## HMI_SCREEN
+
+The `HMI_SCREEN` element is mandatory for every screen. It manages the main layout, including header, footer, navigation, and the main content area where the grid is rendered.
+
+Inside a screen element, **one** grid element must be declared.
+
+## HMI_GRID
+
+The `HMI_GRID` provides a grid-based layout system with rows and columns, allowing for complex layouts. You can set widths and heights for each row and column.
+
+**Example:**
+```
+  HMI_GRID("400px 1fr 150px", "2fr min-content 1fr"); //Args: column sizes, row sizes
+    <your containers>
+  END_HMI_GRID
+```
+
+This translates to a layout like:
+<div style="display: grid; grid-template-columns: 400px 1fr 150px; grid-template-rows: 2fr min-content 1fr; border: var(--ec-brdWd) solid var(--ec-brdCol)">
+  <div style="margin: 0; grid-column: 1/2; grid-row: 1/2; background: #23262f;"><p style="text-align: center;">1</P></div>
+  <div style="margin: 0; grid-column: 2/3; grid-row: 1/2; background: #3f4455;"><p style="text-align: center;">2</P></div>
+  <div style="margin: 0; grid-column: 3/4; grid-row: 1/2; background: #23262f;"><p style="text-align: center;">3</P></div>
+
+  <div style="margin: 0; grid-column: 1/2; grid-row: 2/3; background: #3f4455;"><p style="text-align: center;">4</P></div>
+  <div style="margin: 0; grid-column: 2/3; grid-row: 2/3; background: #23262f;"><p style="text-align: center;">5</P></div>
+  <div style="margin: 0; grid-column: 3/4; grid-row: 2/3; background: #3f4455;"><p style="text-align: center;">6</P></div>
+
+  <div style="margin: 0; grid-column: 1/2; grid-row: 3/4; background: #23262f;"><p style="text-align: center;">7</P></div>
+  <div style="margin: 0; grid-column: 2/3; grid-row: 3/4; background: #3f4455;"><p style="text-align: center;">8</P></div>
+  <div style="margin: 0; grid-column: 3/4; grid-row: 3/4; background: #23262f;"><p style="text-align: center;">9</P></div>
+</div>
+
+## HMI_CONTAINER
+
+Containers hold UI elements such as `HMI_STATIC_TEXT`, `HMI_DISPLAY_VAL`, `HMI_GAUGE_CIRCLE`, etc. Elements are ordered vertically unless styled otherwise in CSS or container implementation files.
+
+:::tip
+You can nest grids inside containers for more advanced layouts.
+:::
+
+**Example**: 
+```
+  HMI_GRID("400px 1fr 150px", "2fr min-content 1fr"); //Args: column sizes, row sizes
+    HMI_CONTAINER(1, 2, 1, 1); //Args: column, column-span, row, row-span | YELLOW
+    HMI_CONTAINER(2, 2, 2, 2); //Args: column, column-span, row, row-span | ORANGE
+  END_HMI_GRID
+```
+
+This translates to a layout like:
+<div style="display: grid; grid-template-columns: 400px 1fr 150px; grid-template-rows: 2fr min-content 1fr; border: var(--ec-brdWd) solid var(--ec-brdCol)">
+  <div style="margin: 0; grid-column: 1/2; grid-row: 1/2; background: #23262f;"><p style="text-align: center;">1</P></div>
+  <div style="margin: 0; grid-column: 2/3; grid-row: 1/2; background: #3f4455;"><p style="text-align: center;">2</P></div>
+  <div style="margin: 0; grid-column: 3/4; grid-row: 1/2; background: #23262f;"><p style="text-align: center;">3</P></div>
+
+  <div style="margin: 0; grid-column: 1/2; grid-row: 2/3; background: #3f4455;"><p style="text-align: center;">4</P></div>
+  <div style="margin: 0; grid-column: 2/3; grid-row: 2/3; background: #23262f;"><p style="text-align: center;">5</P></div>
+  <div style="margin: 0; grid-column: 3/4; grid-row: 2/3; background: #3f4455;"><p style="text-align: center;">6</P></div>
+
+  <div style="margin: 0; grid-column: 1/2; grid-row: 3/4; background: #23262f;"><p style="text-align: center;">7</P></div>
+  <div style="margin: 0; grid-column: 2/3; grid-row: 3/4; background: #3f4455;"><p style="text-align: center;">8</P></div>
+  <div style="margin: 0; grid-column: 3/4; grid-row: 3/4; background: #23262f;"><p style="text-align: center;">9</P></div>
+
+  <div style="margin: 0; grid-column: 1/3; grid-row: 1/1; background: #ffcc00; margin: 5px; opacity:50%; border-radius: 5px;"></div>
+  <div style="margin: 0; grid-column: 2/4; grid-row: 1/4; background: #ff6e00; margin: 5px; opacity:50%; border-radius: 5px;"></div>
+
+</div>
+
+## Best Practices
+
+- Use separate `.TWV` files for each screen to keep layouts organized.
+- Leverage CSS for consistent styling across screens.
+- Use JavaScript for dynamic and interactive elements.
+- Preview changes frequently to ensure your HMI looks and behaves as expected.

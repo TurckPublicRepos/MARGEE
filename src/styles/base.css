@@ -1,0 +1,24 @@
+@layer starlight {
+
+  /**
+    * common
+    */
+  :root {
+    --sl-color-text-accent: #ffcc00c0;
+  }
+
+  /**
+    * Dark mode
+    */
+  :root {}
+
+
+  /**
+    * Light mode
+    */
+  :root[data-theme='light'] {}
+
+  code {
+    border-radius: 5px;
+  }
+}

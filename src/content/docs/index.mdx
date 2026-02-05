@@ -1,0 +1,47 @@
+---
+title: MARGEE.
+description: Get started with using Margee.
+head:
+  - tag: style
+    content: |
+      .hero-html {
+        --size: 12rem;
+        font-size: var(--size);
+        justify-content: center;
+        line-height: var(--size);
+      }
+template: splash
+hero:
+  tagline: Program. Debug. Simulate. Turck devices in Visual Studio Code.
+  image: 
+    file: ../../assets/ProductIcon.png
+  actions:
+    - text: Margee documentation
+      link: /guides/installing/
+      icon: right-arrow
+    - text: Download Visual Studio Code
+      link: https://code.visualstudio.com/
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Quick setup
+
+<CardGrid stagger>
+	<Card title="Download Visual Studio Code" icon="download">
+		Download Visual Studio Code. You can find it at the official download [page](https://code.visualstudio.com/).
+	</Card>
+	<Card title="Add the Margee extension" icon="add-document">
+    You can find the Margee extension in the market place of Visual Studio Code.
+	</Card>
+	<Card title="Start Editing. Start Debugging. Start Creating." icon="rocket">
+    Execute the command `MARGEE: Create a new project` in Visual Studio Code to open a sample project.
+	</Card>
+	<Card title="Read the docs" icon="open-book">
+		Learn more in [the Margee docs](/guides/installing/). 
+    
+    Any info missing or is something not clear? Contact us at: Martijn.Bakker@Turck.com
+	</Card>
+</CardGrid>

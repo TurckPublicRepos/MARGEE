@@ -1,0 +1,397 @@
+---
+title: Turck Structured Text
+---
+
+Turck Structured Text (TST) is the main programming language for Margee projects, enabling flexible logic, variable management, and device control.
+
+## Variable Types
+
+| Type        | Description                  | Smallest Value    | Biggest Value     | Size    |
+| ----------- | --------------------------- | ----------------- | ----------------- | ------- |
+| **REAL**    | Floating point              | 1.175494 × 10⁻³⁸  | 3.4028237 × 10³⁸  | 32 bits |
+| **UDINT**   | Unsigned double integer     | 0                 | 4294967295        | 32 bits |
+| **UINT**    | Unsigned integer            | 0                 | 65535             | 16 bits |
+| **USINT**   | Unsigned small integer      | 0                 | 255               | 8 bits  |
+| **DINT**    | Signed double integer       | -2147483647       | 2147483647        | 32 bits |
+| **INT**     | Signed integer              | -32768            | 32767             | 16 bits |
+| **SINT**    | Signed small integer        | -128              | 127               | 8 bits  |
+| **DWORD**   | Alias of `UDINT`            | 0                 | 4294967295        | 32 bits |
+| **WORD**    | Alias of `UINT`             | 0                 | 65535             | 16 bits |
+| **BYTE**    | Alias of `USINT`            | 0                 | 255               | 8 bits  |
+| **TIMER**   | Timer                       |                   |                   | 64 bits |
+| **ARRAY**   | Array                       |                   |                   | x+4 bits|
+| **COMPLEX** | `STRUCT` or `FUNCTION_BLOCK`|                   |                   | x bits  |
+
+## Variable Segments
+
+Variable segments are used to define variable which can be used in the MARGEE program. Global segments (`VAR_GLOBAL`, `VAR_RETAIN`, `VAR_RETAIN` & `VAR_CONSTANT`) can be declared at any top-level location. `VAR`, `VAR_INPUT`, `VAR_OUTPUT`, `VAR_IN_OUT` can only be used in `FUNCTION`, `FUNCTION_BLOCK`, or `TASK` right after the initial declaration.
+
+```
+<segment type>
+    <variable name> : <type> {:= <value>}; //Simple
+    <name> : ARRAY[0..<end index>] OF <type> {:= [<value>, ... ]}; //Array
+    <name> : <complex name> {:= [<value>, ... ]}; //Complex
+    ...
+END_<segment_type>
+```
+
+### Segments type
+
+| Type             | description                                                                                                                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **VAR**          | Variables declared here can be reached in the local scope.                                                                                                                                        |
+| **VAR_GLOBAL**   | Global variables can be reached anywhere in the program. A `VAR_GLOBAL` segment can only be declared at the top-level scope.                                                                      |
+| **VAR_RETAIN**   | Retain variables can be reached anywhere in the program. Values stored in this segment will be retained between power cycles. A `VAR_RETAIN` segment can only be declared at the top-level scope. |
+| **VAR_CONSTANT** | Constant variables can be reached anywhere in the program. A `VAR_CONSTANT` segment can only be declared at the top-level                                                                         |
+| **VAR_INPUT**    | A `VAR_INPUT` segment can only be declared in `FUNCTION` or `FUNCTION_BLOCK`. Used to pass variables by value. `ARRAY` or `COMPLEX` cannot be declared here.                             |
+| **VAR_OUTPUT**   | A `VAR_OUTPUT` segment can only be declared in `FUNCTION` or `FUNCTION_BLOCK`. Used to return variables by value. `ARRAY` or `COMPLEX` cannot be declared here.                          |
+| **VAR_IN_OUT**   | A `VAR_IN_OUT` segment can only be declared in `FUNCTION` or `FUNCTION_BLOCK`. Used to pass variables by reference. When using `ARRAY` type, the length cannot be set.                   |
+
+## Types
+
+### TASK
+
+A task is automatically called by the operating system. Any unique name can be used to create a task. Multiple tasks can be created, which will be called in sequence.
+
+```
+TASK <task name>
+    <variable segments>
+    ...
+
+    statements
+    ...
+END_TASK
+```
+
+### FUNCTION_BLOCK
+
+A function block cannot be called directly. It must first be declared in the local scope. The statements are declared once. Variables are declared and reserved for each function block declaration. Local variables are retained between calls. A function block is able to halt a task. `ARRAY` or `COMPLEX` cannot be used as a return type.
+
+```
+FUNCTION_BLOCK <function block name> {: <return type>}
+    <variable segments>
+    ...
+
+    statements
+    ...
+END_FUNCTION_BLOCK
+```
+
+### FUNCTION
+
+A function is created at the top-level. A function can be called from anywhere. `FUNCTION_BLOCK` types cannot be declared in a function. The statements **and** variables are declared and reserved **once**. A function is unable to halt a task (`WAIT_UNTILL` or `CONTEXT SWITCH` cannot be used). `ARRAY` or `COMPLEX` cannot be used as a return type.
+
+```
+FUNCTION <function name> {: <return type>}
+<variable segments>
+...
+
+    statements
+    ...
+
+END_FUNCTION
+```
+
+### STRUCT
+
+A struct type is used to create a complex data type. This struct can be declared, and passed to FB's through `VAR_IN_OUT`.
+
+```
+
+STRUCT <struct name>
+<variable name> : <type>;
+...
+END_STRUCT
+
+```
+
+### ENUM
+
+An enum type is used to create constant variables. As opposed to `VAR_CONSTANT` accessing an enum variable must also include the enum name (`<enum name>.<variable name>`).
+
+```
+
+ENUM <enum name>
+  <variable name> : <type> := <value>;
+  <variable name> : <type>; 
+  ...
+END_ENUM
+
+```
+
+## Statements
+
+### CALL
+
+Call a `FUNCTION` or `FUNCTION_BLOCK`.
+
+```
+<function name>();
+
+<function name>(<argument>, ...)
+```
+
+### ASSIGN
+
+Assign a value to a variable.
+
+```
+<variable> := <expression>;
+```
+
+### IF
+
+```
+IF <expression> THEN
+    ...
+END_IF
+
+IF <expression> THEN
+    ...
+ELSIF <expression> THEN
+    ...
+END_IF
+
+
+IF <expression> THEN
+    ...
+ELSE
+    ...
+END_IF
+```
+
+### WHILE
+
+Execute statements until an expression returns a nullish value.
+
+```
+WHILE <expression> DO
+    ...
+END_WHILE
+```
+
+### FOR
+
+Execute statements with a number of repetitions.
+
+```
+FOR <variable> := <number> TO <number> DO
+    ...
+END_FOR
+
+FOR <variable> := <number> TO <number> BY <number> DO
+    ...
+END_FOR
+```
+
+### EXIT
+
+Exit a `WHILE` or `FOR` loop immediately.
+
+```
+EXIT;
+```
+### CONTINUE
+
+Continue to the start of a `WHILE` or `FOR` loop immediately.
+
+```
+CONTINUE;
+```
+
+### RETURN
+
+Return from a `FUNCTION`, `FUNCTION_BLOCK` or `TASK` immediately.
+
+```
+EXIT;
+```
+
+### WAIT_UNTIL
+
+Halts a `TASK` untill the expression return a nullish value.
+
+```
+WAIT_UNTIL(<expression>);
+```
+
+### CONTEXT_SWITCH
+
+Exits a `TASK` immediately, `TASK` will resume at the next line after all other tasks have been called.
+
+```
+CONTEXT_SWITCH;
+```
+
+### TRACE
+
+Logs a message and optional value when program hits the trace. The message can be read in the debug window.
+
+```
+
+TRACE(<string> <variable> <string>);
+
+TRACE(<string>);
+
+TRACE(<string> <variable>);
+
+```
+
+## Expressions
+
+At a high level, an expression is a valid unit of code that resolves to a value.
+
+```
+<value>
+
+<value><operator><value>
+
+<value><operator><value><operator><value>
+```
+
+Examples
+
+```
+(28 * someVar) / 25
+
+aFunc(someVar) + (0xff << otherVar) / TO_WORD(3.14 * 28)
+
+```
+
+### operators
+
+All complex expressions are joined by operators, such as `=` and `+`. Margee has access to the following:
+
+| Type   | name             | Can be performed on `REAL` |
+| ------ | ---------------- | -------------------------- |
+| **==** | Equal            | ℹ️ results in int (0 or 1) |
+| **<>** | Not equal        | ℹ️ results in int (0 or 1) |
+| **<=** | Less or equal    | ℹ️ results in int (0 or 1) |
+| **<**  | Less             | ℹ️ results in int (0 or 1) |
+| **>=** | Greater or equal | ℹ️ results in int (0 or 1) |
+| **>**  | Greater          | ℹ️ results in int (0 or 1) |
+| **\*** | Multiply         | ✅ Yes                     |
+| **/**  | Divide           | ✅ Yes                     |
+| **%**  | Modulo           | ❌ No                      |
+| **+**  | Add              | ✅ Yes                     |
+| **-**  | Sub              | ✅ Yes                     |
+| **&**  | And              | ❌ No                      |
+| **\|** | Or               | ❌ No                      |
+| **<<** | Shift left       | ❌ No                      |
+| **>>** | Shift right      | ❌ No                      |
+
+### values
+
+The basic expression is a value. A value can be a `CONSANT`, `READ` or `CALL`.
+
+- [CALL](#call) - A call can only be used if the called function returns a value.
+- READ - A variable that is a simple type.
+- CONSTANT - `1234`, `16#ABCD`, `2#10010001`, `3.14` and more...
+
+### special
+
+##### TO_REAL
+
+Converts an expression to a `REAL` type.
+
+Actual code is generated when: 
+ - expression is **not** of type `REAL`
+
+```
+TO_REAL(<expression>)
+```
+
+##### TO_UDINT
+
+Converts an expression to a `UDINT` type.
+
+Actual code is generated when: 
+ - expression is of type `REAL`
+
+```
+TO_UDINT(<expression>)
+```
+
+##### TO_UINT
+
+Converts an expression to a `UINT` type.
+
+Actual code is generated when: 
+ - expression is of type `REAL` or
+ - expression is of type `UDINT` or 
+ - expression is of type `DINT` or 
+
+```
+TO_UINT(<expression>)
+```
+
+##### TO_USINT
+
+Converts an expression to a `USINT` type.
+
+Actual code is generated when: 
+ - expression is of type `REAL` or
+ - expression is of type `UDINT` or 
+ - expression is of type `UINT` or 
+ - expression is of type `DINT` or 
+ - expression is of type `INT` or 
+
+```
+TO_USINT(<expression>)
+```
+
+##### TO_DINT
+
+Converts an expression to a `DINT` type.
+
+Actual code is generated when: 
+ - expression is of type `REAL`
+
+```
+TO_DINT(<expression>)
+```
+
+##### TO_INT
+
+Converts an expression to a `INT` type.
+
+Actual code is generated when: 
+ - expression is of type `REAL` or
+ - expression is of type `UDINT` or 
+ - expression is of type `DINT` or 
+
+```
+TO_INT(<expression>)
+```
+
+##### TO_SINT
+
+Converts an expression to a `SINT` type.
+
+Actual code is generated when: 
+ - expression is of type `REAL` or
+ - expression is of type `UDINT` or 
+ - expression is of type `UINT` or 
+ - expression is of type `DINT` or 
+ - expression is of type `INT` or 
+
+```
+TO_SINT(<expression>)
+```
+
+:::tip
+Use type conversion functions like `TO_REAL` or `TO_INT` to ensure your expressions match the expected variable type.
+:::
+
+##### Extracting bits
+
+If an expression is an integer you can extract specific bits from this expression.
+
+```
+<expression>.<least significant bit>{..<bit length>}
+
+(2#00111100).2..4 //result in: 2#0b1111
+
+(2#00001000).3 //result in: 2#0b1
+
+```
