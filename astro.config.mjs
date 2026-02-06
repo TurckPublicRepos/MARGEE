@@ -5,8 +5,8 @@ import starlight from '@astrojs/starlight';
 // https://astro.build/config
 export default defineConfig({
   output: 'static',
-  site: 'https://https://turckpublicrepos.github.io/',
-  base: '/margee',
+  site: 'https://turckpublicrepos.github.io/',
+  base: '/margee/',
   integrations: [
     starlight({
       title: 'Documentation',
