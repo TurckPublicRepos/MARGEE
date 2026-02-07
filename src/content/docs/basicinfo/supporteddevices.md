@@ -50,7 +50,3 @@ These Turck devices are compatible with the MARGEE IDE for programming and autom
 | [FEN20-4DIN-4DXN](http://tqr.be/p=6814129)        | 42KB           | 265KB             |
 | [TNSLR-Q130-EN](http://tqr.be/p=100004502)        | 42KB           | 265KB             |
 | [TN-UHF-Q150](http://tqr.be/p=100018053)          | 42KB           | 265KB             |
-
-:::tip
-Click device names for datasheets and details.
-:::

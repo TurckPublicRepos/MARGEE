@@ -19,9 +19,15 @@ export default defineConfig({
           ]
         },
         {
+          label: 'Installing',
+          items: [
+            { label: 'Online installation', slug: 'installing/online' },
+            { label: 'Offline installation', slug: 'installing/offline' },
+          ]
+        },
+        {
           label: 'Guides',
           items: [
-            { label: 'Installing', slug: 'guides/installing' },
             { label: 'Quick Start', slug: 'guides/quickstart' },
             { label: 'My First Project', slug: 'guides/firstproject' },
             { label: 'Editing', slug: 'guides/editing' },
@@ -54,6 +60,15 @@ export default defineConfig({
             }
           ]
         },
+        {
+          label: 'Libraries',
+          items: [
+            { label: 'SYS', link: 'https://turckpublicrepos.github.io/MARGEE-LIB-SYS/' },
+            { label: 'MATH', link: 'https://turckpublicrepos.github.io/MARGEE-LIB-MATH/' },
+            { label: 'IO-LINK', link: 'https://turckpublicrepos.github.io/MARGEE-LIB-IO-LINK/' },
+            { label: 'NETWORKING TCP/IP', link: 'https://turckpublicrepos.github.io/MARGEE-LIB-NETWORKING-TCPIP/' },
+          ]
+        }
       ],
       customCss: [
         '/src/styles/base.css'

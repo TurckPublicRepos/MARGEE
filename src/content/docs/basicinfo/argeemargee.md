@@ -1,6 +1,8 @@
 ---
-title: ARGEE or MARGEE - Selecting Your Turck Development Environment
+title: ARGEE or MARGEE
 ---
+
+**Selecting Your Turck Development Environment**
 
 Both ARGEE and MARGEE are IDEs developed for programming Turck devices, but they offer different approaches and feature sets. Choosing the right IDE depends on your project requirements and workflow preferences.
 
