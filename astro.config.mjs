@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
@@ -28,7 +29,6 @@ export default defineConfig({
         {
           label: 'Guides',
           items: [
-            { label: 'Quick Start', slug: 'guides/quickstart' },
             { label: 'My First Project', slug: 'guides/firstproject' },
             { label: 'Editing', slug: 'guides/editing' },
             { label: 'Debugging', slug: 'guides/debugging' },
@@ -54,7 +54,7 @@ export default defineConfig({
               label: 'TWV',
               items: [
                 { label: 'Turck WebView', slug: 'reference/twv/info' },
-                { label: 'JavaScript', slug: 'reference/twv/javascript' },
+                { label: 'TypeScript', slug: 'reference/twv/typescript' },
                 { label: 'Styling', slug: 'reference/twv/styling' },
               ]
             }
@@ -73,7 +73,11 @@ export default defineConfig({
       customCss: [
         '/src/styles/base.css'
       ],
+      components: {
+        Hero: '/src/components/Hero.astro',
+      },
       favicon: "favicon.ico",
     }),
+    mdx(),
   ],
 });

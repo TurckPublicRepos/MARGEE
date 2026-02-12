@@ -2,35 +2,44 @@
 title: My First Project
 ---
 
-Follow these steps to create and explore your first Margee project:
 
-1. **Install Prerequisites**
-  - Download and install [Visual Studio Code](https://code.visualstudio.com/Download).
-  - Install the Margee extension from the VS Code Marketplace.
+This guide will walk you through creating and exploring your very first Margee project. Before you begin, make sure Margee is set up in your environment. See [Online Installation](../../installing/online) or [Offline Installation](../../installing/offline) on how to setup your MARGEE environment. 
 
-2. **Create a New Project**
-  - Open VS Code and launch the Command Palette (`Ctrl+Shift+P` or `F1`).
-  - Type `MARGEE: Create a new Margee project` and select it.
-  - Enter a project name and choose a folder for your project.
+## 1. Create a New Project
 
-3. **Explore the Project Structure**
-  - Open the generated folder. You’ll see one or more folders containing:
-    - `.tps` files: Device and project configuration
-    - `.tst` files: Example logic for your Turck device
-    - `.twv` files: Web interface (vHMI) example
-    - Miscellaneous assets: Images, stylesheets, etc.
+1. Open VS Code and launch the Command Palette (`Ctrl+Shift+P` or `F1`).
+2. Type `MARGEE: Create a new Margee project` and select it.
+3. Enter a project name and choose a folder for your project.
+4. When prompted, click ‘Yes’ to open the project.
 
-4. **Edit Device Logic**
-  - Open a `.tst` file. Try editing a task or variable. Margee provides code suggestions and error checking.
+## 2. Explore the Project Structure
 
-5. **Customize the Web Interface**
-  - Open a `.twv` file. Add a button, change a label, or adjust layout. Use preview to see changes live.
+In your new project you’ll find the following files:
 
-6. **Configure Device Settings**
-  - Edit the .tps file to set device type, I/O parameters, and project options.
-  - Make the necessary changes in the `launch.json`. Like the IP address, password, and more
+- **`.tps` files** — Device and project configuration
+- **`.tst` files** — Example logic for your Turck device
+- **`.twv` files** — Web interface (vHMI) example
+- **Assets** — Images, stylesheets, and more
 
-7. **Debug and Simulate**
-  - Use Margee’s debugging tools to set breakpoints, watch variables, and simulate device behavior.
-  - Hit `F5` to start a debugging session. The code will be compiled and uploaded to the device.
-  - The progress is reported in the bottom (typically) blue bar.
+## 3. Edit Device Logic
+
+Open a `.tst` file and try editing a task or variable. Margee provides code suggestions and error checking as you work.
+
+## 4. Customize the Web Interface
+
+Open a `.twv` file. Add a button, change a label, or adjust the layout. Use the preview feature to see your changes live.
+
+## 5. Configure Device Settings
+
+- Edit the `.tps` file to set device type, I/O parameters, and project options.
+- Update the `launch.json` file with your device’s IP address, password, and other settings as needed.
+
+## 6. Debug and Simulate
+
+Use Margee’s debugging tools to:
+
+- Set breakpoints
+- Watch variables
+- Simulate device behavior
+
+Press `F5` to start a debugging session. Your code will be compiled and uploaded to the device. Progress is shown in the blue status bar at the bottom.

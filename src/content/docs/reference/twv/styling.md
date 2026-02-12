@@ -2,67 +2,57 @@
 title: Styling
 ---
 
-## Styling in TWV
+This documentation describes how styling works for TWV elements in Margee.
 
-Styling in TWV is typically managed using standard CSS, either through classes or inline styles. When you define elements in JavaScript for TWV, you can assign CSS classes or set inline styles directly in the returned HTML string.
+## Automatic Class Naming
 
-### Using Classes
+- If an element is named `HMI_DISPLAY_VALUE`, the class name `HMI_DISPLAY_VALUE` is automatically added to its root element.
+- This allows you to target these elements directly in your CSS.
 
-You can pass a `className` argument to your element functions and include it in the HTML output. This allows you to leverage global or local CSS rules.
+## Adding Custom Classes
 
-```js
-// Example
-return `<div id="${id}" class="myCustomClass">${content}</div>`;
-```
-
-### Inline Styles
-
-For dynamic layouts, you can set inline styles using string interpolation:
+You can add custom classes to any element by appending them after the element call. For example:
 
 ```js
-return `<div style="color: ${color}; grid-column: ${col};">${content}</div>`;
+HMI_TEXT_H1("MARGEE <strong>Sample</strong> Program")<class-one class-two>;
 ```
 
-### Dynamic Styling with JavaScript
+In this example, the root element will have the following classes:
 
-During redraw events, you can update styles or classes programmatically:
+- The default class for the element (e.g., `HMI_TEXT_H1`)
+- Any custom classes you specify (e.g., `class-one`, `class-two`)
 
-```js
-const el = document.getElementById(id);
-el.style.backgroundColor = newColor;
-el.classList.toggle("active", isActive);
-```
-
-### Best Practices
-
-- Use CSS classes for reusable styles.
-- Use inline styles for dynamic or computed values.
-- Update styles in redraw events for interactive or real-time changes.
-
-This approach allows you to combine the flexibility of JavaScript with the power of CSS, making your TWV interfaces both dynamic and visually consistent.
-
-## Example CSS File
-
-You can define your styles in a separate CSS file and reference the classes in your TWV JavaScript elements.
+This makes it easy to style elements directly in your CSS:
 
 ```css
-.myCustomClass {
-  background: #f0f0f0;
-  color: #333;
-  border-radius: 8px;
-  padding: 12px;
-  transition: background 0.3s;
+.HMI_TEXT_H1 {
+	font-size: 2rem;
 }
-.active {
-  background: #0078d4;
-  color: #fff;
+
+.class-one {
+	color: red;
+}
+
+.class-two {
+	background: yellow;
 }
 ```
 
-Then, in your JavaScript element:
+## Example Usage
 
 ```js
-return `<div id="${id}" class="myCustomClass ${isActive ? 'active' : ''}">${content}</div>`;
+// Basic usage with default class
+HMI_DISPLAY_VALUE("123.45");
+
+// Usage with custom classes
+HMI_DISPLAY_VALUE("123.45")<highlight large-text>;
 ```
 
-Include your CSS file in your HTML or project so the classes are available to your TWV elements.
+In the second example, the root element will have the classes: `HMI_DISPLAY_VALUE`, `highlight`, and `large-text`.
+
+## Summary
+
+- Every element gets a class matching its name.
+- You can add more classes by appending them after the element call.
+- All classes are applied to the root element, making CSS styling straightforward.
+

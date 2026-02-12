@@ -2,25 +2,27 @@
 title: Turck Structured Text
 ---
 
-Turck Structured Text (TST) is the main programming language for Margee projects, enabling flexible logic, variable management, and device control.
+import { Code } from '@astrojs/starlight/components';
+
+Turck Structured Text (TST) is the main programming language for MARGEE projects.
 
 ## Variable Types
 
-| Type        | Description                  | Smallest Value    | Biggest Value     | Size    |
-| ----------- | --------------------------- | ----------------- | ----------------- | ------- |
-| **REAL**    | Floating point              | 1.175494 × 10⁻³⁸  | 3.4028237 × 10³⁸  | 32 bits |
-| **UDINT**   | Unsigned double integer     | 0                 | 4294967295        | 32 bits |
-| **UINT**    | Unsigned integer            | 0                 | 65535             | 16 bits |
-| **USINT**   | Unsigned small integer      | 0                 | 255               | 8 bits  |
-| **DINT**    | Signed double integer       | -2147483647       | 2147483647        | 32 bits |
-| **INT**     | Signed integer              | -32768            | 32767             | 16 bits |
-| **SINT**    | Signed small integer        | -128              | 127               | 8 bits  |
-| **DWORD**   | Alias of `UDINT`            | 0                 | 4294967295        | 32 bits |
-| **WORD**    | Alias of `UINT`             | 0                 | 65535             | 16 bits |
-| **BYTE**    | Alias of `USINT`            | 0                 | 255               | 8 bits  |
-| **TIMER**   | Timer                       |                   |                   | 64 bits |
-| **ARRAY**   | Array                       |                   |                   | x+4 bits|
-| **COMPLEX** | `STRUCT` or `FUNCTION_BLOCK`|                   |                   | x bits  |
+| Type        | Description                 | Smallest Value    | Biggest Value     | Size   |
+| ----------- | --------------------------- | ----------------- | ----------------- | ------ |
+| **REAL**    | Floating point              | 1.175494 * 10⁻³⁸  | 3.4028237 * 10³⁸  | 32 bit |
+| **UDINT**   | Unsigned double integer     | 0                 | 4294967295        | 32 bit |
+| **UINT**    | Unsigned integer            | 0                 | 65535             | 16 bit |
+| **USINT**   | Unsigned small integer      | 0                 | 255               | 8 bit  |
+| **DINT**    | Signed double integer       | -2147483647       | 2147483647        | 32 bit |
+| **INT**     | Signed integer              | -32768            | 32767             | 16 bit |
+| **SINT**    | Signed small integer        | -128              | 127               | 8 bit  |
+| **DWORD**   | Alias of `UDINT`            | 0                 | 4294967295        | 32 bit |
+| **WORD**    | Alias of `UINT`             | 0                 | 65535             | 16 bit |
+| **BYTE**    | Alias of `USINT`            | 0                 | 255               | 8 bit  |
+| **TIMER**   | Timer                       |                   |                   | 64 bit |
+| **ARRAY**   | Array                       |                   |                   | x+4 bit|
+| **COMPLEX** | `STRUCT` or `FUNCTION_BLOCK`|                   |                   | x bit  |
 
 ## Variable Segments
 
@@ -37,15 +39,15 @@ END_<segment_type>
 
 ### Segments type
 
-| Type             | description                                                                                                                                                                                       |
+| Type             | Description                                                                                                                                                                                       |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **VAR**          | Variables declared here can be reached in the local scope.                                                                                                                                        |
 | **VAR_GLOBAL**   | Global variables can be reached anywhere in the program. A `VAR_GLOBAL` segment can only be declared at the top-level scope.                                                                      |
 | **VAR_RETAIN**   | Retain variables can be reached anywhere in the program. Values stored in this segment will be retained between power cycles. A `VAR_RETAIN` segment can only be declared at the top-level scope. |
-| **VAR_CONSTANT** | Constant variables can be reached anywhere in the program. A `VAR_CONSTANT` segment can only be declared at the top-level                                                                         |
-| **VAR_INPUT**    | A `VAR_INPUT` segment can only be declared in `FUNCTION` or `FUNCTION_BLOCK`. Used to pass variables by value. `ARRAY` or `COMPLEX` cannot be declared here.                             |
-| **VAR_OUTPUT**   | A `VAR_OUTPUT` segment can only be declared in `FUNCTION` or `FUNCTION_BLOCK`. Used to return variables by value. `ARRAY` or `COMPLEX` cannot be declared here.                          |
-| **VAR_IN_OUT**   | A `VAR_IN_OUT` segment can only be declared in `FUNCTION` or `FUNCTION_BLOCK`. Used to pass variables by reference. When using `ARRAY` type, the length cannot be set.                   |
+| **VAR_CONSTANT** | Constant variables can be reached anywhere in the program. A `VAR_CONSTANT` segment can only be declared at the top-level scope.                                                                  |
+| **VAR_INPUT**    | A `VAR_INPUT` segment can only be declared in `FUNCTION` or `FUNCTION_BLOCK`. Used to pass variables by value. `ARRAY` or `COMPLEX` cannot be declared here.                                      |
+| **VAR_OUTPUT**   | A `VAR_OUTPUT` segment can only be declared in `FUNCTION` or `FUNCTION_BLOCK`. Used to return variables by value. `ARRAY` or `COMPLEX` cannot be declared here.                                   |
+| **VAR_IN_OUT**   | A `VAR_IN_OUT` segment can only be declared in `FUNCTION` or `FUNCTION_BLOCK`. Used to pass variables by reference. When using `ARRAY` type, the length cannot be set.                            |
 
 ## Types
 
@@ -79,14 +81,14 @@ END_FUNCTION_BLOCK
 
 ### FUNCTION
 
-A function is created at the top-level. A function can be called from anywhere. `FUNCTION_BLOCK` types cannot be declared in a function. The statements **and** variables are declared and reserved **once**. A function is unable to halt a task (`WAIT_UNTILL` or `CONTEXT SWITCH` cannot be used). `ARRAY` or `COMPLEX` cannot be used as a return type.
+A function is created at the top-level. A function can be called from anywhere. `FUNCTION_BLOCK` types cannot be declared in a function. The statements **and** variables are declared and reserved **once**. A function is unable to halt a task (`WAIT_UNTIL` or `CONTEXT SWITCH` cannot be used). `ARRAY` or `COMPLEX` cannot be used as a return type.
 
 ```
 FUNCTION <function name> {: <return type>}
-<variable segments>
-...
+    <variable segments>
+    ...
 
-    statements
+    <statements>
     ...
 
 END_FUNCTION
@@ -97,10 +99,9 @@ END_FUNCTION
 A struct type is used to create a complex data type. This struct can be declared, and passed to FB's through `VAR_IN_OUT`.
 
 ```
-
 STRUCT <struct name>
-<variable name> : <type>;
-...
+    <variable name> : <type> {:= <value>};
+    ...
 END_STRUCT
 
 ```
@@ -111,9 +112,8 @@ An enum type is used to create constant variables. As opposed to `VAR_CONSTANT` 
 
 ```
 
-ENUM <enum name>
-  <variable name> : <type> := <value>;
-  <variable name> : <type>; 
+ENUM <enum name>: <type>
+  <variable name> := <value>;
   ...
 END_ENUM
 
@@ -137,26 +137,28 @@ Assign a value to a variable.
 
 ```
 <variable> := <expression>;
+
+<variable> := <call>;
 ```
 
 ### IF
 
 ```
 IF <expression> THEN
-    ...
+    <statements> ...
 END_IF
 
 IF <expression> THEN
-    ...
+    <statements> ...
 ELSIF <expression> THEN
-    ...
+    <statements> ...
 END_IF
 
 
 IF <expression> THEN
-    ...
+    <statements> ...
 ELSE
-    ...
+    <statements> ...
 END_IF
 ```
 
@@ -166,8 +168,18 @@ Execute statements until an expression returns a nullish value.
 
 ```
 WHILE <expression> DO
-    ...
+    <statements> ...
 END_WHILE
+```
+
+### REPEAT
+
+Execute statements until an expression returns a nullish value.
+
+```
+REPEAT
+    <statements> ...
+UNTIL <expression> END_REPEAT
 ```
 
 ### FOR
@@ -176,11 +188,11 @@ Execute statements with a number of repetitions.
 
 ```
 FOR <variable> := <number> TO <number> DO
-    ...
+    <statements> ...
 END_FOR
 
 FOR <variable> := <number> TO <number> BY <number> DO
-    ...
+    <statements> ...
 END_FOR
 ```
 
@@ -204,12 +216,12 @@ CONTINUE;
 Return from a `FUNCTION`, `FUNCTION_BLOCK` or `TASK` immediately.
 
 ```
-EXIT;
+RETURN;
 ```
 
 ### WAIT_UNTIL
 
-Halts a `TASK` untill the expression return a nullish value.
+Halts a complete `TASK` until the expression returns a nullish value.
 
 ```
 WAIT_UNTIL(<expression>);
@@ -228,13 +240,11 @@ CONTEXT_SWITCH;
 Logs a message and optional value when program hits the trace. The message can be read in the debug window.
 
 ```
-
 TRACE(<string> <variable> <string>);
 
 TRACE(<string>);
 
 TRACE(<string> <variable>);
-
 ```
 
 ## Expressions
@@ -250,35 +260,33 @@ At a high level, an expression is a valid unit of code that resolves to a value.
 ```
 
 Examples
-
 ```
 (28 * someVar) / 25
 
 aFunc(someVar) + (0xff << otherVar) / TO_WORD(3.14 * 28)
-
 ```
 
 ### operators
 
 All complex expressions are joined by operators, such as `=` and `+`. Margee has access to the following:
 
-| Type   | name             | Can be performed on `REAL` |
-| ------ | ---------------- | -------------------------- |
-| **==** | Equal            | ℹ️ results in int (0 or 1) |
-| **<>** | Not equal        | ℹ️ results in int (0 or 1) |
-| **<=** | Less or equal    | ℹ️ results in int (0 or 1) |
-| **<**  | Less             | ℹ️ results in int (0 or 1) |
-| **>=** | Greater or equal | ℹ️ results in int (0 or 1) |
-| **>**  | Greater          | ℹ️ results in int (0 or 1) |
-| **\*** | Multiply         | ✅ Yes                     |
-| **/**  | Divide           | ✅ Yes                     |
-| **%**  | Modulo           | ❌ No                      |
-| **+**  | Add              | ✅ Yes                     |
-| **-**  | Sub              | ✅ Yes                     |
-| **&**  | And              | ❌ No                      |
-| **\|** | Or               | ❌ No                      |
-| **<<** | Shift left       | ❌ No                      |
-| **>>** | Shift right      | ❌ No                      |
+| Type     | name             | Can be performed on `REAL` |
+| -------- | ---------------- | -------------------------- |
+| **==**   | Equal            | ✅ results in int (0 or 1) |
+| **\<>**  | Not equal        | ✅ results in int (0 or 1) |
+| **\<=**  | Less or equal    | ✅ results in int (0 or 1) |
+| **\<**   | Less             | ✅ results in int (0 or 1) |
+| **>=**   | Greater or equal | ✅ results in int (0 or 1) |
+| **>**    | Greater          | ✅ results in int (0 or 1) |
+| **\***   | Multiply         | ✅ Yes                     |
+| **/**    | Divide           | ✅ Yes                     |
+| **%**    | Modulo           | ❌ No                      |
+| **+**    | Add              | ✅ Yes                     |
+| **-**    | Sub              | ✅ Yes                     |
+| **&**    | And              | ❌ No                      |
+| **|**    | Or               | ❌ No                      |
+| **\<\<** | Shift left       | ❌ No                      |
+| **>>**   | Shift right      | ❌ No                      |
 
 ### values
 
