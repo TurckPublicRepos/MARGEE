@@ -9,31 +9,46 @@ TWV lets you build dynamic user interfaces by defining elements as TypeScript cl
 
 ## How Elements Work
 
-1. **Definition:** You define an element as a TypeScript class that extends the `RUNTIME_ELEMENT` abstract class.
+1. **Definition:** You define an element as a TypeScript class that extends the `ELEMENT` or `CONTAINER_ELEMENT` abstract class.
 2. **Discovery:** When a `.twv` file is loaded, the runtime finds each element and creates an instance of its class.
 3. **Rendering:** The runtime calls the `render` method on each instance, passing in arguments from the `.twv` file.
-4. **DOM Integration:** The element’s `root` DOM node is appended to its parent in the UI tree. Class names (including the TypeScript class name and any custom class from the `.twv` file) are automatically added to the root for styling.
+4. **DOM Integration:** The element's `root` DOM node is appended to its parent in the UI tree. Class names (including the TypeScript class name and any custom class from the `.twv` file) are automatically added to the root for styling.
 5. **Lifecycle:** The runtime continues to call `render` for every element in a cyclic fashion, allowing elements to update in response to data or user actions. The `HMI_RUNTIME.isRendered` flag lets you check if the element is being rendered for the first time or is being updated.
 
-## The Base Class: `RUNTIME_ELEMENT`
+## The Base Class: `ELEMENT`
 
-Every custom element must extend the following abstract class:
+Every element that does not contain child elements must extend the `ELEMENT` class. This class defines the structure and contract for all elements, ensuring they have a `root` DOM node and a `render` method.
 
 ```typescript
-export abstract class RUNTIME_ELEMENT {
-  public abstract readonly root: HTMLElement;
-  public content?: HTMLElement;
-  public abstract render(...args: (ARG | undefined)[]): void;
+export abstract class ELEMENT {
+  abstract readonly root: HTMLElement;
+  abstract render(...args: (ARG | undefined)[]): void;
 }
 ```
 
 - `root`: The main DOM node for your element. This is what gets appended to the parent in the UI tree.
-- `content`: Optional. Can be used if your elements has child nodes (only **HMI_SCREEN**, **HMI_GRID** and **HMI_CONTAINER**)
 - `render`: Called by the runtime to update your element. All arguments from the `.twv` file are passed here.
+
+## The Base Class: `CONTAINER_ELEMENT`
+
+Every element that should contain child elements must extend the `CONTAINER_ELEMENT` class. This class defines the structure and contract for all container elements, ensuring they have a `root` DOM node, a `render` method, and a `content` property for child elements.
+
+```typescript
+export abstract class CONTAINER_ELEMENT {
+  abstract readonly root: HTMLElement;
+  abstract readonly content: HTMLElement;
+  abstract render(...args: (ARG | undefined)[]): void;
+}
+```
+
+- `root`: The main DOM node for your element. This is what gets appended to the parent in the UI tree.
+- `content`: The DOM node that will contain the child elements. This is where child elements are appended.
+- `render`: Called by the runtime to update your element. All arguments from the `.twv` file are passed here.
+
 
 ## Writing Your Own Element
 
-Here’s a step-by-step guide to creating a custom element:
+Here's a step-by-step guide to creating a custom element:
 
 1. **Create a TypeScript class that implements `RUNTIME_ELEMENT`.**
 2. **Define the `root` property as your main DOM node.**
@@ -65,7 +80,7 @@ export class HMI_DISPLAY_VALUE implements RUNTIME_ELEMENT {
 }
 ```
 
-#### What’s Happening in the Example?
+#### What's Happening in the Example?
 
 - The class defines a `root` div.
 - The `render` method reads values from the runtime.

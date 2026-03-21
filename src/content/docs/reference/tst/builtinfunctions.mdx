@@ -1,0 +1,479 @@
+---
+title: Builtin Functions
+prev: false
+next: false
+---
+
+import { Code } from '@astrojs/starlight/components';
+
+There are various builtin functions available in the Turck Structured Text compiler. 
+These functions are not defined in any library but are directly implemented in the runtime. 
+They can be used without any imports and are available globally.
+
+## STRING FUNCTIONS
+
+### STR_LEN
+
+Returns the length of the string. Will throw an exception if no null char is present in string.
+
+```
+STR_LEN : UDINT
+VAR_IN_OUT
+  STRING: ARRAY OF USINT
+END_VAR
+```
+
+### STR_TO_UDINT
+
+Converts a string to an unsigned double integer.
+
+```
+STR_TO_UDINT : UDINT
+VAR_IN_OUT
+  STRING: ARRAY OF USINT
+END_VAR
+VAR_INPUT
+  BASE: UDINT
+END_VAR
+```
+
+### STR_TO_DINT
+
+Converts a string to a signed double integer.
+
+```
+STR_TO_DINT : DINT
+VAR_IN_OUT
+  STRING: ARRAY OF USINT
+END_VAR
+VAR_INPUT
+  BASE: UDINT
+END_VAR
+```
+
+### UDINT_TO_STR
+
+Converts a unsigned double integer to a string.
+
+```
+UDINT_TO_STR : UDINT
+VAR_INPUT
+  SOURCE: UDINT
+END_VAR
+VAR_IN_OUT
+  STRING: ARRAY OF USINT
+END_VAR
+VAR_INPUT
+  BASE: UDINT
+END_VAR
+```
+
+### DINT_TO_STR
+
+Converts a signed double integer to a string.
+
+```
+DINT_TO_STR : DINT
+VAR_INPUT
+  SOURCE: DINT
+END_VAR
+VAR_IN_OUT
+  STRING: ARRAY OF USINT
+END_VAR
+VAR_INPUT
+  BASE: UDINT
+END_VAR
+```
+
+## TIMER FUNCTIONS
+
+
+### START_TIMER
+
+```
+START_TIMER: UDINT
+VAR_IN_OUT
+  TIMER: TIMER
+END_VAR
+VAR_INPUT
+  EXPIRATION_TIME: UDINT
+END_VAR
+```
+
+### EXPIRED
+
+```
+EXPIRED: UDINT
+VAR_IN_OUT
+  TIMER: TIMER
+END_VAR
+```
+
+### GET_TIME
+
+```
+GET_TIME: UDINT
+VAR_IN_OUT
+  TIMER: TIMER
+END_VAR
+```
+
+## MIN MAX ABS
+
+
+
+### MIN_DINT
+
+```
+MIN_DINT: DINT
+VAR_INPUT
+  ONE: DINT;
+  TWO: DINT;
+END_VAR
+```
+
+### MIN_INT
+
+```
+MIN_INT: INT
+VAR_INPUT
+  ONE: INT;
+  TWO: INT;
+END_VAR
+```
+
+### MIN_SINT
+
+```
+MIN_SINT: SINT
+VAR_INPUT
+  ONE: SINT;
+  TWO: SINT;
+END_VAR
+```
+
+### MIN_UDINT
+
+```
+MIN_UDINT: UDINT
+VAR_INPUT
+  ONE: UDINT;
+  TWO: UDINT;
+END_VAR
+```
+
+### MIN_UINT
+
+```
+MIN_UINT: UINT
+VAR_INPUT
+  ONE: UINT;
+  TWO: UINT;
+END_VAR
+```
+
+### MIN_USINT
+
+```
+MIN_USINT: USINT
+VAR_INPUT
+  ONE: USINT;
+  TWO: USINT;
+END_VAR
+```
+
+### MAX_DINT
+
+```
+MAX_DINT: DINT
+VAR_INPUT
+  ONE: DINT;
+  TWO: DINT;
+END_VAR
+```
+
+### MAX_INT
+
+```
+MAX_INT: INT
+VAR_INPUT
+  ONE: INT;
+  TWO: INT;
+END_VAR
+```
+
+### MAX_SINT
+
+```
+MAX_SINT: SINT
+VAR_INPUT
+  ONE: SINT;
+  TWO: SINT;
+END_VAR
+```
+
+### MAX_UDINT
+
+```
+MAX_UDINT: UDINT
+VAR_INPUT
+  ONE: UDINT;
+  TWO: UDINT;
+END_VAR
+```
+
+### MAX_UINT
+
+```
+MAX_UINT: UINT
+VAR_INPUT
+  ONE: UINT;
+  TWO: UINT;
+END_VAR
+```
+
+### MAX_USINT
+
+```
+MAX_USINT: USINT
+VAR_INPUT
+  ONE: USINT;
+  TWO: USINT;
+END_VAR
+```
+
+### ABS_DINT
+
+```
+ABS_DINT: DINT
+VAR_INPUT
+  ONE: DINT;
+END_VAR
+```
+
+### ABS_INT
+
+```
+ABS_INT: INT
+VAR_INPUT
+  ONE: INT;
+END_VAR
+```
+
+### ABS_SINT
+
+```
+ABS_SINT: SINT
+VAR_INPUT
+  ONE: SINT;
+END_VAR
+```
+
+### ABS_UDINT
+
+```
+ABS_UDINT: UDINT
+VAR_INPUT
+  ONE: UDINT;
+END_VAR
+```
+
+### ABS_UINT
+
+```
+ABS_UINT: UINT
+VAR_INPUT
+  ONE: UINT;
+END_VAR
+```
+
+### ABS_USINT
+
+```
+ABS_USINT: USINT
+VAR_INPUT
+  ONE: USINT;
+END_VAR
+```
+
+## GET SET
+
+### LE_GET_UINT
+
+```
+LE_GET_UINT: UINT
+VAR_IN_OUT
+  ARR: ARRAY OF ANY;
+END_VAR
+VAR_INPUT
+  OFFSET: UDINT;
+END_VAR
+```
+
+### BE_GET_UINT
+
+```
+BE_GET_UINT: UINT
+VAR_IN_OUT
+  ARR: ARRAY OF ANY;
+END_VAR
+VAR_INPUT
+  OFFSET: UDINT;
+END_VAR
+```
+
+### LE_GET_UDINT
+
+```
+LE_GET_UDINT: UDINT
+VAR_IN_OUT
+  ARR: ARRAY OF ANY;
+END_VAR
+VAR_INPUT
+  OFFSET: UDINT;
+END_VAR
+```
+
+### BE_GET_UDINT
+
+```
+BE_GET_UDINT: UDINT
+VAR_IN_OUT
+  ARR: ARRAY OF ANY;
+END_VAR
+VAR_INPUT
+  OFFSET: UDINT;
+END_VAR
+```
+
+### LE_SET_UINT
+
+```
+LE_SET_UINT: UDINT
+VAR_INOUT
+  ARR: ARRAY OF ANY;
+END_VAR
+VAR_INPUT
+  OFFSET: UDINT;
+  VALUE: UDINT;
+END_VAR
+```
+
+### BE_SET_UINT
+
+```
+BE_SET_UINT: UDINT
+VAR_INOUT
+  ARR: ARRAY OF ANY;
+END_VAR
+VAR_INPUT
+  OFFSET: UDINT;
+  VALUE: UDINT;
+END_VAR
+```
+
+### LE_SET_UDINT
+
+```
+LE_SET_UDINT: UDINT
+VAR_INOUT
+  ARR: ARRAY OF ANY;
+END_VAR
+VAR_INPUT
+  OFFSET: UDINT;
+  VALUE: UDINT;
+END_VAR
+```
+
+### BE_SET_UDINT
+
+```
+BE_SET_UDINT: UDINT
+VAR_INOUT
+  ARR: ARRAY OF ANY;
+END_VAR
+VAR_INPUT
+  OFFSET: UDINT;
+  VALUE: UDINT;
+END_VAR
+```
+
+## Triggers
+
+### F_COS
+
+Change Of State. Returns TRUE if value has changed since last call.
+
+```
+F_COS: USINT
+VAR_INPUT
+  VALUE: UDINT;
+END_VAR
+```
+
+### R_TRIG
+
+Rising trigger. Returns TRUE if value changed to TRUE since last call.
+
+```
+R_TRIG: USINT
+VAR_INPUT
+  VALUE: UDINT;
+END_VAR
+```
+
+### F_TRIG
+
+Falling trigger. Returns TRUE if value changed to FALSE since last call.
+
+```
+F_TRIG: USINT
+VAR_INPUT
+  VALUE: UDINT;
+END_VAR
+```
+
+### F_COS_M
+
+Change Of State. Returns TRUE if value has changed since last call. Functionality similar to F_COS but F_COS_M requires an explicit memory variable.
+
+```
+F_COS_M: USINT
+VAR_INPUT
+  VALUE: UDINT;
+END_VAR
+VAR_IN_OUT
+  MEM: UDINT;
+END_VAR
+```
+
+### R_TRIG_M
+
+Rising trigger. Returns TRUE if value changed to TRUE since last call. Functionality similar to R_TRIG but R_TRIG_M requires an explicit memory variable.
+
+```
+R_TRIG_M: USINT
+VAR_INPUT
+  VALUE: UDINT;
+END_VAR
+VAR_IN_OUT
+  MEM: UDINT;
+END_VAR
+```
+
+### F_TRIG_M
+
+Falling trigger. Returns TRUE if value changed to FALSE since last call. Functionality similar to F_TRIG but F_TRIG_M requires an explicit memory variable.
+
+```
+F_TRIG_M: USINT
+VAR_INPUT
+  VALUE: UDINT;
+END_VAR
+VAR_IN_OUT
+  MEM: UDINT;
+END_VAR
+```
+
+
+];

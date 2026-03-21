@@ -98,7 +98,7 @@ END_FUNCTION
 
 ### STRUCT
 
-A struct type is used to create a complex data type. This struct can be declared, and passed to FB's through `VAR_IN_OUT`.
+A struct type is used to create a complex data type. This struct can be declared, and passed to FBs through `VAR_IN_OUT`.
 
 ```
 STRUCT <struct name>
@@ -145,6 +145,8 @@ Assign a value to a variable.
 
 ### IF
 
+Conditionally executes code.
+
 ```
 IF <expression> THEN
     <statements> ...
@@ -166,7 +168,7 @@ END_IF
 
 ### WHILE
 
-Execute statements until an expression returns a nullish value.
+Executes statements while an expression returns a non-nullish value.
 
 ```
 WHILE <expression> DO
@@ -176,7 +178,7 @@ END_WHILE
 
 ### REPEAT
 
-Execute statements until an expression returns a nullish value.
+Executes statements while an expression returns a non-nullish value.
 
 ```
 REPEAT
@@ -186,7 +188,7 @@ UNTIL <expression> END_REPEAT
 
 ### FOR
 
-Execute statements with a number of repetitions.
+Executes statements with a number of repetitions.
 
 ```
 FOR <variable> := <number> TO <number> DO
@@ -200,14 +202,14 @@ END_FOR
 
 ### EXIT
 
-Exit a `WHILE` or `FOR` loop immediately.
+Exit a `WHILE`, `REPEAT` or `FOR` loop immediately.
 
 ```
 EXIT;
 ```
 ### CONTINUE
 
-Continue to the start of a `WHILE` or `FOR` loop immediately.
+Continue to the start of a `WHILE`, `REPEAT` or `FOR` loop immediately.
 
 ```
 CONTINUE;
@@ -272,23 +274,23 @@ aFunc(someVar) + (0xff << otherVar) / TO_WORD(3.14 * 28)
 
 All complex expressions are joined by operators, such as `=` and `+`. Margee has access to the following:
 
-| Type     | name             | Can be performed on `REAL` |
-| -------- | ---------------- | -------------------------- |
-| **==**   | Equal            | ✅ results in int (0 or 1) |
-| **\<>**  | Not equal        | ✅ results in int (0 or 1) |
-| **\<=**  | Less or equal    | ✅ results in int (0 or 1) |
-| **\<**   | Less             | ✅ results in int (0 or 1) |
-| **>=**   | Greater or equal | ✅ results in int (0 or 1) |
-| **>**    | Greater          | ✅ results in int (0 or 1) |
-| **\***   | Multiply         | ✅ Yes                     |
-| **/**    | Divide           | ✅ Yes                     |
-| **%**    | Modulo           | ❌ No                      |
-| **+**    | Add              | ✅ Yes                     |
-| **-**    | Sub              | ✅ Yes                     |
-| **&**    | And              | ❌ No                      |
-| **|**    | Or               | ❌ No                      |
-| **\<\<** | Shift left       | ❌ No                      |
-| **>>**   | Shift right      | ❌ No                      |
+| Type     | name             | Can be performed on `REAL`                        |
+| -------- | ---------------- | ------------------------------------------------- |
+| **==**   | Equal            | ✅ Results in an unsigned small integer (0 or 1) |
+| **\<>**  | Not equal        | ✅ Results in an unsigned small integer (0 or 1) |
+| **\<=**  | Less or equal    | ✅ Results in an unsigned small integer (0 or 1) |
+| **\<**   | Less             | ✅ Results in an unsigned small integer (0 or 1) |
+| **>=**   | Greater or equal | ✅ Results in an unsigned small integer (0 or 1) |
+| **>**    | Greater          | ✅ Results in an unsigned small integer (0 or 1) |
+| **\***   | Multiply         | ✅ Yes                                           |
+| **/**    | Divide           | ✅ Yes                                           |
+| **%**    | Modulo           | ❌ No                                            |
+| **+**    | Add              | ✅ Yes                                           |
+| **-**    | Sub              | ✅ Yes                                           |
+| **&**    | And              | ❌ No                                            |
+| **|**    | Or               | ❌ No                                            |
+| **\<\<** | Shift left       | ❌ No                                            |
+| **>>**   | Shift right      | ❌ No                                            |
 
 ### values
 
@@ -322,6 +324,17 @@ Actual code is generated when:
 TO_UDINT(<expression>)
 ```
 
+##### TO_DWORD
+
+Converts an expression to a `DWORD` type.
+
+Actual code is generated when: 
+ - expression is of type `REAL`
+
+```
+TO_DWORD(<expression>)
+```
+
 ##### TO_UINT
 
 Converts an expression to a `UINT` type.
@@ -333,6 +346,19 @@ Actual code is generated when:
 
 ```
 TO_UINT(<expression>)
+```
+
+##### TO_WORD
+
+Converts an expression to a `WORD` type.
+
+Actual code is generated when: 
+ - expression is of type `REAL` or
+ - expression is of type `UDINT` or 
+ - expression is of type `DINT` or 
+
+```
+TO_WORD(<expression>)
 ```
 
 ##### TO_USINT
@@ -348,6 +374,21 @@ Actual code is generated when:
 
 ```
 TO_USINT(<expression>)
+```
+
+##### TO_BYTE
+
+Converts an expression to a `BYTE` type.
+
+Actual code is generated when: 
+ - expression is of type `REAL` or
+ - expression is of type `UDINT` or 
+ - expression is of type `UINT` or 
+ - expression is of type `DINT` or 
+ - expression is of type `INT` or 
+
+```
+TO_BYTE(<expression>)
 ```
 
 ##### TO_DINT

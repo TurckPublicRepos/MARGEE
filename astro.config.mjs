@@ -48,6 +48,7 @@ export default defineConfig({
               label: 'TST',
               items: [
                 { label: 'Turck Structured Text', slug: 'reference/tst/info' },
+                { label: 'Builtin Functions', slug: 'reference/tst/builtinfunctions' },
               ]
             },
             {

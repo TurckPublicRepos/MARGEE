@@ -27,24 +27,38 @@ Multiple pages are allowed by Margee. Each screen should be defined in a differe
 Every TWV file follows a similar tree structure:
 
 ````plaintext
-HMI_SCREEN(<arguments>);
-  HMI_GRID(<arguments>);
-    <your containers>
-  END_HMI_GRID
-END_HMI_SCREEN
+HMI_SCREEN(<arguments>)
+  <CONTAINER_ELEMENT>(<ARGUMENTS>)
+    <ELEMENT>(<ARGUMENTS>);
+    <ELEMENT>(<ARGUMENTS>);
+    <ELEMENT>(<ARGUMENTS>);
+    <CONTAINER_ELEMENT>(<ARGUMENTS>)
+      <ELEMENT>(<ARGUMENTS>);
+    ;
+  ;
+  <ELEMENT>(<ARGUMENTS>);
+  <ELEMENT>(<ARGUMENTS>);
+  <CONTAINER_ELEMENT>(<ARGUMENTS>)
+    <ELEMENT>(<ARGUMENTS>);
+  ;
+;
 ````
 
 - **HMI_SCREEN**: Main entry point for every screen. Handles layout, header, footer, navigation, and main content.
-- **HMI_GRID**: Grid-based layout system with customizable rows and columns.
-- **HMI_CONTAINER**: Placed inside grids, defines where UI elements are rendered.
-
-You can view all available arguments and their descriptions for elements like `HMI_SCREEN`, `HMI_GRID`, and `HMI_CONTAINER` directly in VS Code using IntelliSense. Simply start typing the element, and a tooltip will appear with details about each argument.
+- **CONTAINER_ELEMENT**: A container element can be called anywhere, and **must** have child elements. All UI elements inside a container are rendered **inside** the container on the screen.
+- **ELEMENT**: UI elements that render content on the screen
 
 ![Arguments intellisense](../../../../assets/TWV%20Intellisense.png)
 
 :::tip
 A preview is available, allowing you to directly visualize any changes you make. Start it by clicking the command button on the top-right corner of any `.TWV` file.
 :::
+
+### Design guide for MARGEE sample projects
+
+The native implementation chosen is based on a `GRID` system, which allows for complex layouts. Each element takes arguments that define its position and size within the grid. The following seections will cover these elements. 
+
+Users are free to create their own custom elements and layouts as well. `TWV` elements are created in Typescript and can be extended and customized. The applied interfaces and how to use them are explained in [typescript](../typescript);
 
 ## HMI_SCREEN
 
