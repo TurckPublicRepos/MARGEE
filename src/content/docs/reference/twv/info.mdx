@@ -72,13 +72,13 @@ The `HMI_GRID` provides a grid-based layout system with rows and columns, allowi
 
 **Example:**
 ```
-  HMI_GRID("400px 1fr 150px", "2fr min-content 1fr"); //Args: column sizes, row sizes
+  HMI_GRID("3fr 1fr 2fr", "2fr min-content 1fr"); //Args: column sizes, row sizes
     <your containers>
   END_HMI_GRID
 ```
 
 This translates to a layout like:
-<div style="display: grid; grid-template-columns: 400px 1fr 150px; grid-template-rows: 2fr min-content 1fr; border: var(--ec-brdWd) solid var(--ec-brdCol)">
+<div style="display: grid; grid-template-columns: 3fr 1fr 2fr; grid-template-rows: 2fr min-content 1fr; border: var(--ec-brdWd) solid var(--ec-brdCol)">
   <div style="margin: 0; grid-column: 1/2; grid-row: 1/2; background: #23262f;"><p style="text-align: center;">1</p></div>
   <div style="margin: 0; grid-column: 2/3; grid-row: 1/2; background: #3f4455;"><p style="text-align: center;">2</p></div>
   <div style="margin: 0; grid-column: 3/4; grid-row: 1/2; background: #23262f;"><p style="text-align: center;">3</p></div>
@@ -102,14 +102,14 @@ You can nest grids inside containers for more advanced layouts.
 
 **Example**: 
 ```
-  HMI_GRID("400px 1fr 150px", "2fr min-content 1fr"); //Args: column sizes, row sizes
+  HMI_GRID("3fr 1fr 2fr", "2fr min-content 1fr"); //Args: column sizes, row sizes
     HMI_CONTAINER(1, 2, 1, 1); //Args: column, column-span, row, row-span | YELLOW
     HMI_CONTAINER(2, 2, 2, 2); //Args: column, column-span, row, row-span | ORANGE
   END_HMI_GRID
 ```
 
 This translates to a layout like:
-<div style="display: grid; grid-template-columns: 400px 1fr 150px; grid-template-rows: 2fr min-content 1fr; border: var(--ec-brdWd) solid var(--ec-brdCol)">
+<div style="display: grid; grid-template-columns: 3fr 1fr 2fr; grid-template-rows: 2fr min-content 1fr; border: var(--ec-brdWd) solid var(--ec-brdCol)">
   <div style="margin: 0; grid-column: 1/2; grid-row: 1/2; background: #23262f;"><p style="text-align: center;">1</p></div>
   <div style="margin: 0; grid-column: 2/3; grid-row: 1/2; background: #3f4455;"><p style="text-align: center;">2</p></div>
   <div style="margin: 0; grid-column: 3/4; grid-row: 1/2; background: #23262f;"><p style="text-align: center;">3</p></div>
