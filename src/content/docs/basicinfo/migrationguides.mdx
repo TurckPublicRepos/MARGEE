@@ -1,0 +1,101 @@
+---
+title: Migration Guides
+prev: false
+next: false
+---
+
+import { Code } from '@astrojs/starlight/components';
+
+MARGEE is continuously evolving, and with each new release, there may be changes that require developers to update their existing projects. This section provides guidance on how to migrate your projects from older versions of MARGEE to the latest version, ensuring compatibility and taking advantage of new features.
+
+## V4.0.5 > V4.0.6
+
+Follow these steps to migrate your project from V4.0.5 to V4.0.6.
+
+:::note
+Instead of migrating your project, you can also create a new project in V4.0.6 and copy your existing source files into the new project structure. This approach may be simpler for some developers.
+:::
+
+
+1. Re-save your `.TPS` project file
+     - Open your `.TPS` file.
+     - Save the file once to clear the migration-related error.
+
+2. Add the HMI description file
+     - Open the Command Palette (`Ctrl+Shift+P` or `F1`).
+     - Run `MARGEE: Add HMI description file to project`.
+
+3. Rename deprecated function usage in TypeScript
+     - Replace `getImageStr` with `getIMGString` in your TypeScript files.
+
+4. Update `.vscode/launch.json`
+     - Replace your existing debug configurations with this example:
+   ```json
+     {
+         "version": "0.2.0",
+         "compounds": [
+             {
+                 "name": "RUNTIME & HMI",
+                 "configurations": ["RUNTIME", "HMI (attach)"]
+             }
+         ],
+         "configurations": [
+             {
+                 "name": "RUNTIME",
+                 "type": "MARGEE",
+                 "request": "launch",
+                 "RefreshInterval": 250
+             },
+             {
+                 "name": "HMI",
+                 "type": "chrome",
+                 "request": "launch",
+                 "url": "http://localhost:${config:MARGEE.Port}",
+                 "preLaunchTask": "Start MARGEE Live Preview",
+                 "postDebugTask": "Stop MARGEE Live Preview"
+             },
+             {
+                 "name": "HMI (attach)",
+                 "type": "chrome",
+                 "request": "launch",
+                 "url": "http://localhost:${config:MARGEE.Port}",
+                 "preLaunchTask": "Start MARGEE Live Preview (attach)",
+                 "postDebugTask": "Stop MARGEE Live Preview",
+                 "presentation": {
+                     "hidden": true
+                 }
+             }
+         ]
+     }
+   ``` 
+
+5. Add or update `.vscode/tasks.json`
+     - Ensure the file is located in the `.vscode` folder.
+     - Use the following content:
+   ```json
+     {
+         "version": "2.0.0",
+         "tasks": [
+             {
+                 "label": "Compile MARGEE Project",
+                 "command": "${command:MARGEE.compile}",
+                 "problemMatcher": []
+             },
+             {
+                 "label": "Start MARGEE Live Preview",
+                 "command": "${command:MARGEE.startHMILivePreview}",
+                 "problemMatcher": []
+             },
+             {
+                 "label": "Start MARGEE Live Preview (attach)",
+                 "command": "${command:MARGEE.startHMILivePreviewAttached}",
+                 "problemMatcher": []
+             },
+             {
+                 "label": "Stop MARGEE Live Preview",
+                 "command": "${command:MARGEE.stopHMILivePreview}",
+                 "problemMatcher": []
+             }
+         ]
+     }
+   ```

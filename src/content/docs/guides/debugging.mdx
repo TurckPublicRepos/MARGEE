@@ -4,71 +4,30 @@ prev: false
 next: false
 ---
 
-import { Code } from '@astrojs/starlight/components';
-
 ## Debugging in Margee
 
+Margee supports three debugging modes:
 
+1. **RUNTIME**  
+Use this mode to debug your project logic during execution. You can set breakpoints, inspect variables, and step through code to troubleshoot behavior.
 
-Margee supports two types of debugging in your project:
+2. **HMI**  
+Use this mode to debug only the Human-Machine Interface (HMI) in offline mode. The interface and logic behave like they do on a real device, but values read from the device always return `0`. This is useful for developing and testing UI behavior without connecting hardware.
 
-1. **HMI Offline Debugging**: This mode allows you to debug only the HMI (Human-Machine Interface) in offline mode. In this mode, the interface and logic behave as they would on a real device, but all values read from the device will always return 0. This is ideal for developing and testing the user interface or logic without needing a physical device connected. You can interact with the HMI, test navigation, and verify UI behavior, but device data will be simulated.
+3. **RUNTIME & HMI**  
+Use this mode to debug both project logic and HMI together. You can inspect runtime behavior while interacting with the interface in the same session.
 
-2. **Standard Debugging**: This is the full-featured debug setup where you connect to your actual device. You can set breakpoints, inspect variables, and interact with both the HMI and the device's real data. This mode is used for end-to-end testing and troubleshooting with live device feedback.
 
 **Switching between Debugging Types**
 
-In Visual Studio Code, you can easily switch between these two debugging types by selecting the desired debug configuration from the Run and Debug panel (usually found on the left sidebar). Each debug type is defined as a separate configuration in your `.vscode/launch.json` file. Simply choose either the "HMI Offline Debugging" or the standard device debug session before starting (using the dropdown at the top of the Run and Debug panel), then press `F5` to launch the selected session.
+In Visual Studio Code, select the desired debug configuration in the Run and Debug panel (left sidebar), then press `F5` to start the session.
 
-Both types can be configured and customized in your `launch.json` file to suit your development workflow.
+### Communication with the Device
 
-
-Both debugging types are managed through Visual Studio Code's `launch.json` configuration. This file allows you to define multiple debug sessions, each with its own settings for connecting to your device or running in offline mode. The configuration enables you to set breakpoints, inspect variables, and control how your project is debugged.
-
-
-### Basic Debugging Setup
-
-
-Your project should include a `.vscode/launch.json` file with one or more configurations. Here is an example that matches the two main debugging types described above:
-
-<Code language="json" title="launch.json" code={`
-  {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "type": "MARGEE",
-        "request": "launch",
-        "name": "Default debugger",
-        "IP": "192.168.1.254",
-        "Password": "password",
-        "StartDelay": 20,
-        "RefreshInterval": 250, 
-        "AttachVisualization": true,
-        "AttachVisualizationTo": "chrome"
-      }, 
-      {
-        "type": "chrome",
-        "request": "launch", 
-        "name": "Visualisation Preview",
-        "url": "http://localhost:\${config:MARGEE.Port}",
-        "preLaunchTask": "Start MARGEE Live Preview"
-      }
-    ]
-  }
-`}>
-
-</Code>
+In **RUNTIME** and **RUNTIME & HMI** mode, the debugger communicates with the device over the network. Make sure your device is on the same network as your development machine, and that the correct IP address is configured in your project settings (`.TPS` file).
 
 :::tip
 Margee provides a convenient command in Visual Studio Code: **MARGEE: Scan for supported ARGEE devices**.
 
-You can access this command from the Command Palette (`Ctrl+Shift+P` or `F1`). When you run it, Margee will display a list of all connected ARGEE devices. Selecting a device from the list will automatically update the `IP` field in your debug configuration, making it easy to connect to the correct device without manual entry.
+Open the Command Palette (`Ctrl+Shift+P` or `F1`) and run this command to list connected ARGEE devices. Selecting a device automatically updates the `IP` field in your project settings.
 :::
-
-- The **Default debugger** configuration connects to your device and enables full-featured debugging, including visualization in Chrome.
-- The **Visualisation Preview** configuration launches a browser preview of the HMI (web interface) in offline mode, allowing you to debug the interface without connecting to a device.
-
-You can add or customize these configurations in your `launch.json` to match your workflow and device setup.

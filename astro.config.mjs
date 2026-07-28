@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import mdx from '@astrojs/mdx';
 import remarkGfm from 'remark-gfm';
 
 // https://astro.build/config
@@ -18,6 +17,7 @@ export default defineConfig({
           items: [
             { label: 'ARGEE & MARGEE', slug: 'basicinfo/argeemargee' },
             { label: 'Supported Devices', slug: 'basicinfo/supporteddevices' },
+            { label: 'Migration Guides', slug: 'basicinfo/migrationguides' },
           ]
         },
         {
@@ -79,9 +79,6 @@ export default defineConfig({
         Hero: '/src/components/Hero.astro',
       },
       favicon: "favicon.ico",
-    }),
-    mdx({
-      remarkPlugins: [remarkGfm],
     }),
   ],
 });
